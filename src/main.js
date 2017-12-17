@@ -8,7 +8,7 @@ import api from './api'
 import VueProgressBar from 'vue-progressbar'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-
+import '@/assets/global.css'
 
 
 Vue.config.productionTip = false
@@ -41,7 +41,22 @@ const user = api.SDK.User.current()
 if (user) {
   store.commit('setUser', user);
 }
-new Vue({
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.needLogin)) {
+    if (!store.state.user) {
+      // Vue.prototype.$message.error("请先登录");
+      app.$message.error("请先登录");
+      next({
+        path: '/signIn'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
+})
+const app=new Vue({
   el: '#app',
   router,
   store,

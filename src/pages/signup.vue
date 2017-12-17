@@ -18,7 +18,7 @@
         </el-form-item>
 
         <div class="oprator">
-          <el-button class="submit" type="primary" @click="submitForm('form')">提交</el-button>
+          <el-button class="submit" type="primary" @click="submitForm('form')"@keyup.enter="submitForm('form')">提交</el-button>
         </div>
       </el-form>
     </div>
@@ -76,6 +76,9 @@ export default {
         ]
       }
     };
+  },
+  mounted(){
+   this.$Progress.finsh()
   },
   methods: {
     submitForm(formName) {
